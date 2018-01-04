@@ -1,5 +1,5 @@
 name: python37
-version: '3.7.0a3'
+version: '3.7.0a3+0'
 summary: Python 3.7
 description: |
   Install Python 3.7 as a snap.

@@ -20,13 +20,16 @@ build:
 	docker cp build.sh snap-py37:/root/build.sh
 	docker exec -it snap-py37 chmod +x /root/build.sh
 	docker exec -it snap-py37 /root/build.sh
-	docker cp snap-py37:/root/python37/python37_3.7_amd64.snap .
+	docker cp snap-py37:/root/python37/python37_3.7.0a3+0_amd64.snap .
 
-test: build
+test:
 	docker cp test.sh snap-py37:/root/test.sh
 	docker exec -it snap-py37 chmod +x /root/test.sh
 	docker exec -it snap-py37 /root/test.sh
-	# docker exec -it snap-py37 snap install --devmode python37_3.7_amd64.snap
-	# docker exec -it snap-py37 python37 --version
 
 all: build test
+
+clean:
+	docker kill snap-py37
+	docker rm snap-py37
+	rm python37_3.7.0a3+0_amd64.snap
