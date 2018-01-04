@@ -1,0 +1,84 @@
+name: python37
+version: '3.7.0a3'
+summary: Python 3.7
+description: |
+  Install Python 3.7 as a snap.
+
+type: app
+grade: devel
+confinement: classic
+
+apps:
+  python37:
+    command: bin/python3.7
+
+parts:
+  python37:
+    plugin: autotools
+    configflags:
+      - --with-system-expat
+    source: https://github.com/python/cpython.git
+    source-tag: v3.7.0a3
+    stage-packages:
+      - blt-dev
+      - debhelper
+      - dh-autoreconf
+      - dh-strip-nondeterminism
+      - docutils-common
+      - libbluetooth-dev
+      - libbz2-dev
+      - libdb-dev
+      - libdb5.3-dev
+      - libexpat1-dev
+      - libffi-dev
+      - libfile-stripnondeterminism-perl
+      - libfontconfig1-dev
+      - libfreetype6-dev
+      - libgdbm-dev
+      - libice-dev
+      - libjs-jquery
+      - libjs-sphinxdoc
+      - libjs-underscore
+      - liblzma-dev
+      - libmpdec-dev
+      - libncurses5-dev
+      - libncursesw5-dev
+      - libpng-dev
+      - libpthread-stubs0-dev
+      - libreadline-dev
+      - libsm-dev
+      - libsqlite3-dev
+      - libssl-dev
+      - libtinfo-dev
+      - libx11-dev
+      - libxau-dev
+      - libxcb1-dev
+      - libxdmcp-dev
+      - libxext-dev
+      - libxft-dev
+      - libxrender-dev
+      - libxss-dev
+      - libxt-dev
+      - net-tools
+      - pkg-config
+      - po-debconf
+      - quilt
+      - sgml-base
+      - sharutils
+      - sphinx-common
+      - tcl-dev
+      - tcl8.6-dev
+      - tk-dev
+      - tk8.6-blt2.5
+      - tk8.6-dev
+      - x11proto-core-dev
+      - x11proto-input-dev
+      - x11proto-kb-dev
+      - x11proto-render-dev
+      - x11proto-scrnsaver-dev
+      - x11proto-xext-dev
+      - xml-core
+      - xorg-sgml-doctools
+      - xtrans-dev
+      - xvfb
+      - zlib1g-dev
