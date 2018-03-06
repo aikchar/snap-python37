@@ -1,10 +1,45 @@
-.PHONY: build test
+CONTAINER_NAME := snap-py37
+DOCKER_EXEC := docker exec -it $(CONTAINER_NAME)
+PYTHON37_VERSION ?= 3.7.0b2
+PWD := $(shell pwd)
 
-build:
-	docker run \
-        --name=snap-py37 \
+
+.PHONY: all
+all: build test get-snap
+
+
+.PHONY: build
+build: run-container
+	$(DOCKER_EXEC) apt update
+	$(DOCKER_EXEC) mkdir -p python37/snap
+	docker cp snapcraft.yaml $(CONTAINER_NAME):/root/python37/snap/snapcraft.yaml
+	docker cp build.sh $(CONTAINER_NAME):/root/build.sh
+	$(DOCKER_EXEC) chmod +x /root/build.sh
+	$(DOCKER_EXEC) /root/build.sh
+
+
+.PHONY: test
+test:
+	docker cp test.sh $(CONTAINER_NAME):/root/test.sh
+	$(DOCKER_EXEC) chmod +x /root/test.sh
+	$(DOCKER_EXEC) /root/test.sh
+
+
+.PHONY: get-snap
+get-snap: | $(PWD)/python37_$(PYTHON37_VERSION)_amd64.snap
+
+
+$(PWD)/python37_$(PYTHON37_VERSION)_amd64.snap:
+	docker cp $(CONTAINER_NAME):/root/python37/python37_$(PYTHON37_VERSION)_amd64.snap .
+
+
+.PHONY: run-container
+run-container:
+		docker run \
+        --name=$(CONTAINER_NAME) \
         -d \
         -it \
+		--env PYTHON37_VERSION=$(PYTHON37_VERSION) \
         --tmpfs /run \
         --tmpfs /run/lock \
         --tmpfs /tmp \
@@ -14,22 +49,21 @@ build:
         --security-opt seccomp:unconfined \
         -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
         -v /lib/modules:/lib/modules:ro \
+		--privileged \
         codeghar/snapcraft:latest || :
-	docker exec -it snap-py37 mkdir -p python37/snap
-	docker cp snapcraft.yaml snap-py37:/root/python37/snap/snapcraft.yaml
-	docker cp build.sh snap-py37:/root/build.sh
-	docker exec -it snap-py37 chmod +x /root/build.sh
-	docker exec -it snap-py37 /root/build.sh
-	docker cp snap-py37:/root/python37/python37_3.7.0a3+0_amd64.snap .
 
-test:
-	docker cp test.sh snap-py37:/root/test.sh
-	docker exec -it snap-py37 chmod +x /root/test.sh
-	docker exec -it snap-py37 /root/test.sh
 
-all: build test
-
+.PHONY: clean
 clean:
-	docker kill snap-py37
-	docker rm snap-py37
-	rm python37_3.7.0a3+0_amd64.snap
+	@docker kill $(CONTAINER_NAME) || :
+	@docker rm $(CONTAINER_NAME) || :
+
+
+.PHONY: destroy
+destroy: clean
+	rm python37_$(PYTHON37_VERSION)_amd64.snap
+
+
+.PHONY: list
+list:
+	@grep '^\.PHONY' ./Makefile | awk '{print $$2}'
