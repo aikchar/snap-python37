@@ -1,5 +1,5 @@
 name: python37
-version: '3.7.0a3+0'
+version: '3.7.0b2'
 summary: Python 3.7
 description: |
   Install Python 3.7 as a snap.
@@ -18,7 +18,7 @@ parts:
     configflags:
       - --with-system-expat
     source: https://github.com/python/cpython.git
-    source-tag: v3.7.0a3
+    source-tag: v3.7.0b2
     stage-packages:
       - blt-dev
       - debhelper
