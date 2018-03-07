@@ -18,12 +18,17 @@ The *stage-packages* has a long list of packages. This list was obtained from
 had *python-* or *python3-* in their name. That didn't appear to have any
 negative impact.
 
+# Setup
+
+        $ make init
+
 # Build
 
-        $ make
+        $ make all
 
-Creates a Docker container to build the snap then test installs the snap in the same container. Copies
-the snap to local filesystem.
+Creates a Docker container to build the snap, builds the snap, test installs
+the snap in the same container, and finally copies the snap to local
+filesystem.
 
 # Clean
 
@@ -36,5 +41,5 @@ the snap to local filesystem.
 
 # Notes
 
-Tests fail when running them on Ubuntu based Docker host. They work when running on macOS.
-There appears to be an issue with AppArmor on Ubuntu.
+Tests fail when running them on Ubuntu based Docker host. They work when
+running on macOS. There appears to be an issue with AppArmor on Ubuntu.
