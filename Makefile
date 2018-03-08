@@ -14,12 +14,12 @@ all: build test get-snap
 
 .PHONY: build
 build: up
-	$(DOCKER_EXEC) $(BUILD_CONTAINER_WORK_DIR)/build.sh
+	. .envrc && $(DOCKER_EXEC) $(BUILD_CONTAINER_WORK_DIR)/build.sh
 
 
 .PHONY: test
 test:
-	$(DOCKER_EXEC) $(BUILD_CONTAINER_WORK_DIR)/test.sh
+	. .envrc && $(DOCKER_EXEC) $(BUILD_CONTAINER_WORK_DIR)/test.sh
 
 
 .PHONY: get-snap
@@ -27,7 +27,7 @@ get-snap: | $(PWD)/python37_$(PYTHON37_VERSION)_amd64.snap
 
 
 $(PWD)/python37_$(PYTHON37_VERSION)_amd64.snap:
-	docker cp $(BUILD_CONTAINER_NAME):/root/python37/python37_$(PYTHON37_VERSION)_amd64.snap .
+	. .envrc && docker cp $(BUILD_CONTAINER_NAME):/root/python37/python37_$(PYTHON37_VERSION)_amd64.snap .
 
 
 .PHONY: up
