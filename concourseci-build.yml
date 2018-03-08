@@ -1,0 +1,17 @@
+---
+platform: linux
+
+image_resource:
+    type: docker-image
+    source:
+        repository: codeghar/snapcraft
+        tag: latest
+
+inputs:
+    - name: build_root
+
+outputs:
+    - name: snap
+
+run:
+    path: build_root/build.sh
