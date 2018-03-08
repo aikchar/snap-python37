@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+    builder:
+        image: codeghar/snapcraft:latest
+        container_name: ${BUILD_CONTAINER_NAME}
+        cap_add:
+            - SYS_ADMIN
+        devices:
+            - /dev/fuse
+        environment:
+            PYTHON37_VERSION: ${PYTHON37_VERSION}
+        security_opt:
+            - apparmor:unconfined
+            - seccomp:unconfined
+        tmpfs:
+            - /run
+            - /run/lock
+            - /tmp
+        tty: true
+        volumes:
+            - /sys/fs/cgroup:/sys/fs/cgroup:ro
+            - /lib/modules:/lib/modules:ro
+            - ./:${BUILD_CONTAINER_WORK_DIR}:rw
+        working_dir: ${BUILD_CONTAINER_WORK_DIR}

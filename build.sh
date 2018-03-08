@@ -1,6 +1,4 @@
 #!/bin/sh
 set -e
-(
-    cd /root/python37
-    snapcraft snap
-)
+apt update
+snapcraft snap

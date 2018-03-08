@@ -1,1 +1,6 @@
+.bash_history
+.flyrc
 *.snap
+parts/
+prime/
+stage/
