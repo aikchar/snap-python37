@@ -43,3 +43,10 @@ filesystem.
 
 Tests fail when running them on Ubuntu based Docker host. They work when
 running on macOS. There appears to be an issue with AppArmor on Ubuntu.
+
+# Concourse CI
+
+        $ fly --target TARGET execute --privileged --config=concourseci-build.yml --input build_root=.
+
+For a one-off build in Concourse CI, run the above command. The only thing you
+need to change is *TARGET* to the appropriate *target* for your environment.
