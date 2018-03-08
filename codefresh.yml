@@ -1,0 +1,16 @@
+version: '1.0'
+steps:
+  BuildingDockerImage:
+    title: Building Docker Image
+    type: build
+    image_name: aikchar/snappython37
+    working_directory: ./
+    dockerfile:
+      content: |-
+        FROM codeghar/snapcraft:latest
+
+        COPY . /build_root
+        WORKDIR /build_root
+
+        RUN /build_root/build.sh
+    tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
