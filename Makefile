@@ -56,6 +56,7 @@ clean:
 
 .PHONY: destroy
 destroy: clean
+	rm -f $(PWD)/*.snap
 	rm -f **/*.snap
 	rm -rf $(SNAP_DIR)
 
