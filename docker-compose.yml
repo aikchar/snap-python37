@@ -2,8 +2,8 @@ version: '3'
 
 services:
     builder:
-        image: codeghar/snapcraft:latest
-        container_name: ${BUILD_CONTAINER_NAME}
+        image: ${BUILD_BASE_DOCKER_IMAGE}
+        container_name: ${TEST_CONTAINER_NAME}
         cap_add:
             - SYS_ADMIN
         devices:
