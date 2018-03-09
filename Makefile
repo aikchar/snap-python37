@@ -51,6 +51,7 @@ test:
 .PHONY: clean
 clean:
 	. .envrc && pipenv run docker-compose --file $(TEST_DIR)/docker-compose.yml down
+	docker rm -f $(BUILD_CONTAINER_NAME)  || :
 
 
 .PHONY: destroy
