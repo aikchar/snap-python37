@@ -14,4 +14,5 @@ outputs:
     - name: snap
 
 run:
-    path: build_root/build.sh
+    path: ./build.sh
+    dir: build_root
