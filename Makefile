@@ -12,7 +12,7 @@ init:
 
 
 .PHONY: all
-all: build get-snap test promote-snap clean
+all: build test promote-snap clean
 
 
 .PHONY: build
@@ -43,7 +43,7 @@ $(SNAP_DIR)/$(PYTHON_SNAP): | $(SNAP_DIR)
 
 
 .PHONY: test
-test:
+test: get-snap
 	. .envrc && pipenv run docker-compose --file $(TEST_DIR)/docker-compose.yml up -d
 	. .envrc && pipenv run docker-compose --file $(TEST_DIR)/docker-compose.yml exec test ./test.sh
 
