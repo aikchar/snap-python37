@@ -5,7 +5,7 @@ steps:
         type: build
         image_name: aikchar/snappython37
         working_directory: '${{main_clone}}/build'
-        dockerfile: '${{main_clone}}/build/Dockerfile'
+        dockerfile: Dockerfile
         build_arguments:
             - PYTHON37_VERSION=3.7.0b2
         tag: '${{CF_BRANCH_TAG_NORMALIZED}}'
