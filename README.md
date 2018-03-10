@@ -102,5 +102,5 @@ As newer releases of Python 3.7 appear on Git Hub, make these changes:
 
 * Update *PYTHON37_VERSION* in *.envrc* file
 * Update *version* and *source-tag* in *build/snapcraft.yaml*
-* Update *PYTHON37_VERSION* in *codefresh.yml*
+* Update *PYTHON37_VERSION* in *ci/codefresh/codefresh.yml*
 * Optional: update *ARG PYTHON37_VERSION* in *build/Dockerfile* to keep up
