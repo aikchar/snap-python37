@@ -82,15 +82,13 @@ commits.
 
 # Concourse CI
 
-        $ fly --target TARGET execute --privileged --config=./ci/concourse/build.yml --input snap-python37-src=. --output snap-python37-artifacts=/tmp
+        $ make init
+        $ fly --target TARGET execute --privileged --config=./ci/concourse/build.yml --input snap-python37-src=. --output snap-python37-artifacts=./snap
 
 For a one-off build in Concourse CI, run the above ``fly`` command. The only
 thing you need to change is *TARGET* to the appropriate *target* for your
 environment.
 
-        $ . .envrc
-        $ make init
-        $ cp /tmp/"${PYTHON_SNAP}" ./snap
         $ make test
 
 Once you have the snap artifact in the *snap* directory, you can run
