@@ -8,10 +8,10 @@ image_resource:
         tag: latest
 
 inputs:
-    - name: build_root
+    - name: snap-python37-src
 
 outputs:
-    - name: snap
+    - name: snap-python37-artifacts
 
 run:
-    path: build_root/build.sh
+    path: ./snap-python37-src/ci/concourse/build.sh
