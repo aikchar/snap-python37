@@ -1,18 +1,14 @@
 PWD := $(shell pwd)
 DOCKER_EXEC := pipenv run docker-compose exec builder
-DOCKER_IMAGE := aikchar/snappython37:latest
-BUILD_CONTAINER_NAME := getpython37snap
-PYTHON_SNAP := python37_$(PYTHON37_VERSION)_amd64.snap
-SNAP_DIR := $(PWD)/snap
 
 
 .PHONY: init
-init:
+init: | $(SNAP_DIR)
 	pipenv install
 
 
 .PHONY: all
-all: build test promote-snap clean
+all: build get-snap test clean
 
 
 .PHONY: build
@@ -21,17 +17,7 @@ build:
 
 
 .PHONY: get-snap
-get-snap: | $(TEST_DIR)/$(PYTHON_SNAP)
-
-
-$(TEST_DIR)/$(PYTHON_SNAP):
-	. .envrc && docker run --tty --detach --name $(BUILD_CONTAINER_NAME) $(BUILD_DOCKER_IMAGE) bash
-	. .envrc && docker cp $(BUILD_CONTAINER_NAME):$(BUILD_CONTAINER_WORK_DIR)/$(PYTHON_SNAP) $(TEST_DIR)/
-	. .envrc && docker rm -f $(BUILD_CONTAINER_NAME)
-
-
-.PHONY: promote-snap
-promote-snap: | $(SNAP_DIR)/$(PYTHON_SNAP)
+get-snap: | $(SNAP_DIR)/$(PYTHON_SNAP)
 
 
 $(SNAP_DIR):
@@ -39,11 +25,13 @@ $(SNAP_DIR):
 
 
 $(SNAP_DIR)/$(PYTHON_SNAP): | $(SNAP_DIR)
-	cp $(TEST_DIR)/$(PYTHON_SNAP) $(SNAP_DIR)/$(PYTHON_SNAP)
+	. .envrc && docker run --tty --detach --name $(BUILD_CONTAINER_NAME) $(BUILD_DOCKER_IMAGE) bash
+	. .envrc && docker cp $(BUILD_CONTAINER_NAME):$(BUILD_CONTAINER_WORK_DIR)/$(PYTHON_SNAP) $(SNAP_DIR)/
+	. .envrc && docker rm -f $(BUILD_CONTAINER_NAME)
 
 
 .PHONY: test
-test: get-snap
+test:
 	. .envrc && pipenv run docker-compose --file $(TEST_DIR)/docker-compose.yml up -d
 	. .envrc && pipenv run docker-compose --file $(TEST_DIR)/docker-compose.yml exec test ./test.sh
 

@@ -10,6 +10,7 @@ services:
             - /dev/fuse
         environment:
             PYTHON37_VERSION: ${PYTHON37_VERSION}
+            TEST_CONTAINER_ARTIFACTS_DIR: ${TEST_CONTAINER_ARTIFACTS_DIR}
         security_opt:
             - apparmor:unconfined
             - seccomp:unconfined
@@ -21,5 +22,6 @@ services:
         volumes:
             - /sys/fs/cgroup:/sys/fs/cgroup:ro
             - /lib/modules:/lib/modules:ro
-            - ${TEST_DIR}:${BUILD_CONTAINER_WORK_DIR}:ro
-        working_dir: ${BUILD_CONTAINER_WORK_DIR}
+            - ${TEST_DIR}:${TEST_CONTAINER_WORK_DIR}:ro
+            - ${SNAP_DIR}:${TEST_CONTAINER_ARTIFACTS_DIR}:ro
+        working_dir: ${TEST_CONTAINER_WORK_DIR}

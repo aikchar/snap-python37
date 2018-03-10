@@ -40,39 +40,34 @@ negative impact.
 
         $ make all
 
-This is an all-in-one target that runs the *build*, *test*, and *promote* steps.
+This is an all-in-one target that runs the *build*, *get-snap*, *test*, and
+*clean* steps.
 
         $ make build
 
 Creates a container to build the snap and builds the snap.
 
-, test installs
-the snap in the same container, and finally copies the snap to local
-filesystem.
+
+        $ make get-snap
+
+Creates a container to copy out the snap to the *snap* directory.
 
         $ make test
 
-The *test* target is only supported on local build with ``make``. Creates a
-container to copy out the snap. Creates another container to install the snap
-and test that it works.
-
-        $ make promote-snap
-
-Copies snap from *test* directory to a newly created *snap* directory. This
-means the snap is ready for distribution.
+Creates a container to install the snap and test that it works.
 
 # Clean
 
         $ make clean
 
-* Destroys the container
+* Destroys any container created in this workflow
 
 # Destroy
 
         $ make destroy
 
 * Run all steps in *clean*
-* Removes the snap from the local filesystem
+* Removes the snap from local filesystem
 * Removes any directories created in ``make`` target(s)
 
 # Notes
@@ -87,10 +82,25 @@ commits.
 
 # Concourse CI
 
-        $ fly --target TARGET execute --privileged --config=concourseci-build.yml --input build_root=./build --output snap=./test
+        $ fly --target TARGET execute --privileged --config=./ci/concourse/build.yml --input snap-python37-src=. --output snap-python37-artifacts=/tmp
 
-For a one-off build in Concourse CI, run the above command. The only thing you
-need to change is *TARGET* to the appropriate *target* for your environment.
+For a one-off build in Concourse CI, run the above ``fly`` command. The only
+thing you need to change is *TARGET* to the appropriate *target* for your
+environment.
 
-Once you have the snap in the *test* directory, you can run ``make test``
-locally.
+        $ . .envrc
+        $ make init
+        $ cp /tmp/"${PYTHON_SNAP}" ./snap
+        $ make test
+
+Once you have the snap artifact in the *snap* directory, you can run
+``make test`` locally.
+
+# Customization
+
+As newer releases of Python 3.7 appear on Git Hub, make these changes:
+
+* Update *PYTHON37_VERSION* in *.envrc* file
+* Update *version* and *source-tag* in *build/snapcraft.yaml*
+* Update *PYTHON37_VERSION* in *codefresh.yml*
+* Optional: update *ARG PYTHON37_VERSION* in *build/Dockerfile* to keep up
