@@ -1,25 +1,38 @@
-name: python37
-version: '3.7.0b2'
+name: python37-codeghar
+version: 3.7.0
 summary: Python 3.7
 description: |
   Install Python 3.7 as a snap.
 
 type: app
 grade: devel
-confinement: classic
+confinement: strict
 
 apps:
   python37:
     command: bin/python3.7
+  pydoc3:
+    command: bin/python3.7 -m pydoc
+  pip3:
+    command: bin/python3.7 -m pip
 
 parts:
   python37:
     plugin: autotools
     configflags:
+      - --enable-shared
+      - --enable-ipv6
+      - --enable-loadable-sqlite-extensions
+      - --with-dbmliborder=bdb:gdbm
+      - --with-computed-gotos
+      - --with-ensurepip=upgrade
       - --with-system-expat
+      - --with-system-libmpdec
+      - --with-system-ffi
+      - --with-fpectl
     source: https://github.com/python/cpython.git
-    source-tag: v3.7.0b2
-    stage-packages:
+    source-tag: v3.7.0
+    build-packages:
       - blt-dev
       - debhelper
       - dh-autoreconf

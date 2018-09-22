@@ -2,13 +2,16 @@ version: '3'
 
 services:
     test:
-        image: ${BUILD_BASE_DOCKER_IMAGE}
+        # image: snapcore/snapcraft
+        build:
+            context: .
         container_name: ${TEST_CONTAINER_NAME}
         cap_add:
             - SYS_ADMIN
         devices:
             - /dev/fuse
         environment:
+            SNAP_NAME: ${SNAP_NAME}
             PYTHON37_VERSION: ${PYTHON37_VERSION}
             TEST_CONTAINER_ARTIFACTS_DIR: ${TEST_CONTAINER_ARTIFACTS_DIR}
         security_opt:
