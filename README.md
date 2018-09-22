@@ -47,14 +47,25 @@ This is an all-in-one target that runs the *build*, *get-snap*, *test*, and
 
 Creates a container to build the snap and builds the snap.
 
-
         $ make get-snap
 
 Creates a container to copy out the snap to the *snap* directory.
 
+        $ make install
+
+Installs the newly created snap. It uses the _--classic_ flag so the snap can access your host file
+system. It also uses the  _--dangerous_ flags because the snap is not signed.
+
+        $ make verify-install
+
+Verifies that the snap was installed successfully and that Python is now usable.
+
         $ make test
 
 Creates a container to install the snap and test that it works.
+
+To install the snap on other hosts (for example Ubuntu Core) without having to use the Snap store,
+copy the built snap to the target host and follow the command run in ``make install``.
 
 # Clean
 
